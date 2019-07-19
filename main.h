@@ -2,6 +2,8 @@
 #define FPROJECT_MAIN_H
 
 #include <iostream>
+#include <fstream>
+#include <algorithm>
 #include <time.h>
 #include "graph.h"
 

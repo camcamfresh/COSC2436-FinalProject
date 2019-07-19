@@ -3,9 +3,10 @@
 
 class Graph{
 private:
-	
+	int ** matrix;
+	int vertices;
 public:
-	Graph();
+	Graph(int, int **);
 	~Graph();
 };
 
