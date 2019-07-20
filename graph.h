@@ -6,7 +6,7 @@ private:
 	int ** matrix;
 	int vertices;
 public:
-	Graph(int, int **);
+	Graph(int, void *);
 	~Graph();
 };
 

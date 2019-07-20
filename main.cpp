@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
 				int vertices = std::count(line.begin(), line.end(), ',') + 1;
 								
 				int matrix[vertices][vertices];
+				
 				for(int i = 0; i < vertices; i++){
 					for(int j = vertices - 1; j >= 0; j--){
 						std::string read = line.substr(line.find_last_of(",") + 1);
