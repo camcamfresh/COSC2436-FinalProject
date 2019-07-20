@@ -14,6 +14,8 @@ public:
 	int getEdges();
 	void bfs(int);
 	void dfs(int);
+	
+	void addVertex();
 };
 
 #endif

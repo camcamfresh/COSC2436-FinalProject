@@ -31,6 +31,9 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 	//dfs(1);
 	std::cout << getVertices() << std::endl;
 	std::cout << getEdges() << std::endl;
+	addVertex();
+	std::cout << getVertices() << std::endl;
+	std::cout << getEdges() << std::endl;
 
 }
 
@@ -53,8 +56,14 @@ int Graph::getEdges(){
 			if(transpose[j][i] != matrix[j][i]) symetric = false;
 		}
 	}
-
-	return symetric ? (edgeCount - vertices) / 2 : edgeCount;
+	
+	if(symetric && vertices){
+		edgeCount = (edgeCount - vertices) / 2;//+ disconnections) / 2;
+	}
+	//error when adding vertices that isn't connected but is still symetric (decrements return improperly).
+	//error when weighted graph happens to be symetric.
+	//add is connected condition???
+	return edgeCount;
 }
 
 void Graph::bfs(int vertex){ //input position of vertex wanted starting from 1.
@@ -113,6 +122,28 @@ void Graph::dfs(int vertex){
 	}
 }
 
-//bool addVertex(
+void Graph::addVertex(){
+	vertices++;
+	int ** holder = new int * [vertices];
+	for(int i = 0; i < vertices; i++){
+		holder[i] = new int [vertices];
+		for(int j = 0; j < vertices; j++){
+			if(i == vertices - 1) holder[i][j] = -1;
+			else if(j == vertices - 1) holder[i][j] = -1;
+			else holder[i][j] = matrix[i][j];
+		}
+		if(i != vertices -1) delete matrix[i];
+	}
+	delete matrix;
+	matrix = holder;
+}
+
+
+
+
+
+
+
+
 
 
