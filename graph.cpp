@@ -1,7 +1,8 @@
 #include "graph.h"
-#include "main.h" //debug print statments
+#include "main.h" //debug print statements
 #include <vector>
 #include <queue>
+#include <stack>
 
 Graph::Graph(int vertices, void * matrix, bool alpha){
 	//Cast matrix of a 2D int array to the pointer pMatrix.
@@ -27,7 +28,7 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 		std::cout << std::endl;
 	}*/
 	
-	bfs(1);
+	dfs(1);
 
 }
 
@@ -35,7 +36,7 @@ Graph::~Graph(){
 	
 }
 
-void Graph::bfs(int vertex){
+void Graph::bfs(int vertex){ //input position of vertex wanted starting from 1.
 	std::queue<int> queue;
 	bool visited[vertices];
 	for(int i = 0; i < vertices; i++) visited[i] = false;
@@ -62,4 +63,35 @@ void Graph::bfs(int vertex){
 			std::cout << "missing: Vertex " << j + 1 << std::endl;
 	}
 }
+
+void Graph::dfs(int vertex){
+	std::stack<int> stack;
+	bool visited[vertices];
+	for(int i = 0; i < vertices; i++) visited[i] = false;
+	
+	stack.push(vertex - 1);
+	visited[vertex - 1] = true;
+	
+	while(!stack.empty()){
+		vertex = stack.top();
+		outputAlpha ? std::cout << "Vertex " << (char)(vertex + 'a') << std::endl:
+		std::cout << "Vertex " << vertex + 1 << std::endl;
+		stack.pop();
+		for(int i = 0; i < vertices; i++){
+			if(matrix[vertex][i] >= 0 && !visited[i]){
+				stack.push(i);
+				visited[i] = true;
+			}
+		}		
+	}
+	
+	for(int j = 0; j < vertices; j++){
+		if(!visited[j])
+			outputAlpha ? std::cout << "missing: Vertex " << (char)(j + 'a') << std::endl:
+			std::cout << "missing: Vertex " << j + 1 << std::endl;
+	}
+}
+
+
+
 

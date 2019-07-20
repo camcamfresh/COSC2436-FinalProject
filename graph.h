@@ -11,6 +11,7 @@ public:
 	Graph(int, void *, bool);
 	~Graph();
 	void bfs(int);
+	void dfs(int);
 };
 
 #endif
