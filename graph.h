@@ -7,6 +7,7 @@ private:
 	int vertices;
 	bool outputAlpha;
 	
+	bool symmetric();
 public:
 	Graph(int, void *, bool);
 	~Graph();
@@ -19,6 +20,7 @@ public:
 	void addVertex();
 	bool addEdge(int, int, int = 0);
 	bool removeVertex(int);
+	bool removeEdge(int, int);
 };
 
 #endif

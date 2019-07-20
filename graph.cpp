@@ -29,13 +29,27 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 	}*/
 	
 	//dfs(1);
+	printTable();
 	std::cout << getVertices() << std::endl;
 	std::cout << getEdges() << std::endl;
-	//addVertex();
+	
+	addVertex();
+	printTable();
+	std::cout << getVertices() << std::endl;
+	std::cout << getEdges() << std::endl;
+	
 	//addEdge(1,4,0);
-	removeVertex(6);
+	removeVertex(1);
+	printTable();
 	std::cout << getVertices() << std::endl;
 	std::cout << getEdges() << std::endl;
+	
+	addEdge(6,6,0);
+	addEdge(6,3,0);
+	printTable();
+	std::cout << getVertices() << std::endl;
+	std::cout << getEdges() << std::endl;
+	
 	
 	//printTable();
 }
@@ -50,17 +64,14 @@ int Graph::getVertices(){
 
 int Graph::getEdges(){
 	int edgeCount = 0, transpose[vertices][vertices];
-	bool symmetric = true;
 	
 	for(int i = 0; i < vertices; i++){
 		for(int j = 0; j < vertices; j++){
-			transpose[j][i] = matrix[i][j];
 			if(matrix[i][j] >= 0) edgeCount++;
-			if(transpose[j][i] != matrix[j][i]) symmetric = false;
 		}
 	}
 	
-	if(symmetric && vertices){
+	if(symmetric() && vertices){
 		int selfEdge = 0;
 		for(int i = 0; i < vertices; i++){
 			if(matrix[i][i] == 0) selfEdge++;
@@ -69,6 +80,15 @@ int Graph::getEdges(){
 	}
 	//error when weighted graph happens to be symmetric.
 	return edgeCount;
+}
+
+bool Graph::symmetric(){
+	for(int i = 0; i < vertices; i++){
+		for(int j = 0; j < vertices; j++){
+			if(matrix[j][i] != matrix[j][i]) return false;
+		}
+	}
+	return true;
 }
 
 void Graph::bfs(int vertex){ //input position of vertex wanted starting from 1.
@@ -155,7 +175,7 @@ void Graph::addVertex(){
 
 bool Graph::addEdge(int vertex1, int vertex2, int weight){
 	if(vertex1 < 1 || vertex2 < 1 ||
-	  (outputAlpha && weight > 1) ||
+	  (symmetric() && !outputAlpha && weight > 1) ||
 	   vertex1 > vertices || vertex2 > vertices) return false;
 	
 	matrix[vertex1 - 1][vertex2 - 1] = weight;
@@ -185,7 +205,13 @@ bool Graph::removeVertex(int vertex){
 	}
 	matrix = holder;
 	vertices--;
-	printTable();
+	return true;
+}
+
+bool Graph::removeEdge(int vertex1, int vertex2){
+	if(matrix[vertex1][vertex2] < 0) return false;
+	else matrix[vertex1][vertex2] = -1;
+	if(symmetric() && !outputAlpha) matrix[vertex2][vertex1] = -1;
 	return true;
 }
 
