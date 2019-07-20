@@ -14,8 +14,11 @@ public:
 	int getEdges();
 	void bfs(int);
 	void dfs(int);
+	void printTable(); //debug, maybe turn into output to file method
 	
 	void addVertex();
+	bool addEdge(int, int, int = 0);
+	bool removeVertex(int);
 };
 
 #endif

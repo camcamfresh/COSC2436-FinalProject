@@ -31,10 +31,13 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 	//dfs(1);
 	std::cout << getVertices() << std::endl;
 	std::cout << getEdges() << std::endl;
-	addVertex();
+	//addVertex();
+	//addEdge(1,4,0);
+	removeVertex(6);
 	std::cout << getVertices() << std::endl;
 	std::cout << getEdges() << std::endl;
-
+	
+	//printTable();
 }
 
 Graph::~Graph(){
@@ -47,22 +50,24 @@ int Graph::getVertices(){
 
 int Graph::getEdges(){
 	int edgeCount = 0, transpose[vertices][vertices];
-	bool symetric = true;
+	bool symmetric = true;
 	
 	for(int i = 0; i < vertices; i++){
 		for(int j = 0; j < vertices; j++){
 			transpose[j][i] = matrix[i][j];
 			if(matrix[i][j] >= 0) edgeCount++;
-			if(transpose[j][i] != matrix[j][i]) symetric = false;
+			if(transpose[j][i] != matrix[j][i]) symmetric = false;
 		}
 	}
 	
-	if(symetric && vertices){
-		edgeCount = (edgeCount - vertices) / 2;//+ disconnections) / 2;
+	if(symmetric && vertices){
+		int selfEdge = 0;
+		for(int i = 0; i < vertices; i++){
+			if(matrix[i][i] == 0) selfEdge++;
+		}
+		edgeCount = (edgeCount - selfEdge) / 2 + selfEdge;
 	}
-	//error when adding vertices that isn't connected but is still symetric (decrements return improperly).
-	//error when weighted graph happens to be symetric.
-	//add is connected condition???
+	//error when weighted graph happens to be symmetric.
 	return edgeCount;
 }
 
@@ -122,6 +127,16 @@ void Graph::dfs(int vertex){
 	}
 }
 
+void Graph::printTable(){
+	for(int i = 0; i < vertices; i++){
+		for(int j = 0; j < vertices; j++){
+			std::cout << matrix[i][j];
+			if(j != vertices - 1) std::cout << ",";
+		}
+		std::cout << std::endl;		
+	}
+}
+
 void Graph::addVertex(){
 	vertices++;
 	int ** holder = new int * [vertices];
@@ -132,13 +147,47 @@ void Graph::addVertex(){
 			else if(j == vertices - 1) holder[i][j] = -1;
 			else holder[i][j] = matrix[i][j];
 		}
-		if(i != vertices -1) delete matrix[i];
+		if(i != vertices - 1) delete matrix[i];
 	}
 	delete matrix;
 	matrix = holder;
 }
 
+bool Graph::addEdge(int vertex1, int vertex2, int weight){
+	if(vertex1 < 1 || vertex2 < 1 ||
+	  (outputAlpha && weight > 1) ||
+	   vertex1 > vertices || vertex2 > vertices) return false;
+	
+	matrix[vertex1 - 1][vertex2 - 1] = weight;
+	matrix[vertex2 - 1][vertex1 - 1] = weight;
+	return true;
+}
 
+bool Graph::removeVertex(int vertex){
+	if(vertex < 1 || vertex > vertices) return false;
+	int ** holder = new int * [vertices - 1];
+	for(int i = 0; i < vertices - 1; i++){
+		holder[i] = new int [vertices - 1];
+		for(int j = 0; j < vertices - 1; j++){
+			if(i < vertex - 1 && j < vertex - 1){
+				holder[i][j] = matrix[i][j];
+			}
+			else if(i < vertex - 1){
+				holder[i][j] = matrix[i][j + 1];
+			}
+			else if(j < vertex - 1){
+				holder[i][j] = matrix[i + 1][j];
+			}
+			else{
+				holder[i][j] = matrix[i + 1][j + 1];
+			}
+		}
+	}
+	matrix = holder;
+	vertices--;
+	printTable();
+	return true;
+}
 
 
 
