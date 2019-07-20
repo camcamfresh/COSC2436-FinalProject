@@ -21,6 +21,9 @@ public:
 	bool addEdge(int, int, int = 0);
 	bool removeVertex(int);
 	bool removeEdge(int, int);
+	
+	bool isConnected(bool = false);
+	void listDisconnected();
 };
 
 #endif

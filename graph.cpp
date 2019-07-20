@@ -33,7 +33,7 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 	std::cout << getVertices() << std::endl;
 	std::cout << getEdges() << std::endl;
 	
-	addVertex();
+	/*addVertex();
 	printTable();
 	std::cout << getVertices() << std::endl;
 	std::cout << getEdges() << std::endl;
@@ -48,7 +48,9 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 	addEdge(6,3,0);
 	printTable();
 	std::cout << getVertices() << std::endl;
-	std::cout << getEdges() << std::endl;
+	std::cout << getEdges() << std::endl;*/
+	
+	std::cout << isConnected(true) << std::endl;
 	
 	
 	//printTable();
@@ -101,9 +103,9 @@ void Graph::bfs(int vertex){ //input position of vertex wanted starting from 1.
 	
 	while(!queue.empty()){
 		vertex = queue.front();
+		queue.pop();
 		outputAlpha ? std::cout << "Vertex " << (char)(vertex + 'a') << std::endl:
 		std::cout << "Vertex " << vertex + 1 << std::endl;
-		queue.pop();
 		for(int i = 0; i < vertices; i++){
 			if(matrix[vertex][i] >= 0 && !visited[i]){
 				queue.push(i);
@@ -215,7 +217,51 @@ bool Graph::removeEdge(int vertex1, int vertex2){
 	return true;
 }
 
+bool Graph::isConnected(bool listDisconnected){
+	int net[vertices];
+	std::queue<int> queue;
+	for(int i = 0; i < vertices; i++){
+		net[i] = -1;
+		queue.push(i);
+	}
+	net[0] = 0;
+	
+	while(!queue.empty()){
+		for(int i = 0; i < vertices; i++){
+			if(matrix[queue.front()][i] != -1){
+				if(net[i] == -1) net[i] = net[queue.front()];
+				else if(net[queue.front()] < net[i]) net[i] = net[queue.front()];
+				else{
+					int change = net[queue.front()];
+					for(int j = 0; j < vertices; j++)
+						if(net[j] == change) net[j] = net[i];
+				}
+			}
+		}
+		queue.pop();
+	}
+	
+	bool result = true;
 
+	for(int i = 0; i < vertices; i++){
+		if(net[i] != 0) result = false;
+		if(!listDisconnected) continue;
+		if(net[i] == 0)
+			outputAlpha ? std::cout << "Vertex " << (char)(i + 'a') << ": is connected." << std::endl:
+			std::cout << "Vertex " << i + 1 << ": is connected to net " << (char)(net[i] + 'A') << std::endl;
+		else if(net[i] == -1)
+			outputAlpha ? std::cout << "Vertex " << (char)(i + 'a') << ": is disconnected." << std::endl:
+			std::cout << "Vertex " << i + 1 << ": is disconnected." << std::endl;
+		else
+			outputAlpha ? std::cout << "Vertex " << (char)(i + 'a') << ": is connected to net" << (char)(net[i] + 'A') << std::endl:
+			std::cout << "Vertex " << i + 1 << ": is connected to net" << (char)(net[i] + 'A') << std::endl;
+	}
+	return result;
+}
+
+void Graph::listDisconnected(){
+	isConnected(true);
+}
 
 
 
