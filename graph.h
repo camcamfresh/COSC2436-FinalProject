@@ -10,6 +10,8 @@ private:
 public:
 	Graph(int, void *, bool);
 	~Graph();
+	int getVertices();
+	int getEdges();
 	void bfs(int);
 	void dfs(int);
 };

@@ -28,12 +28,33 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 		std::cout << std::endl;
 	}*/
 	
-	dfs(1);
+	//dfs(1);
+	std::cout << getVertices() << std::endl;
+	std::cout << getEdges() << std::endl;
 
 }
 
 Graph::~Graph(){
 	
+}
+
+int Graph::getVertices(){
+	return vertices;
+}
+
+int Graph::getEdges(){
+	int edgeCount = 0, transpose[vertices][vertices];
+	bool symetric = true;
+	
+	for(int i = 0; i < vertices; i++){
+		for(int j = 0; j < vertices; j++){
+			transpose[j][i] = matrix[i][j];
+			if(matrix[i][j] >= 0) edgeCount++;
+			if(transpose[j][i] != matrix[j][i]) symetric = false;
+		}
+	}
+
+	return symetric ? (edgeCount - vertices) / 2 : edgeCount;
 }
 
 void Graph::bfs(int vertex){ //input position of vertex wanted starting from 1.
@@ -92,6 +113,6 @@ void Graph::dfs(int vertex){
 	}
 }
 
-
+//bool addVertex(
 
 
