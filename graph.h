@@ -5,9 +5,12 @@ class Graph{
 private:
 	int ** matrix;
 	int vertices;
+	bool outputAlpha;
+	
 public:
-	Graph(int, void *);
+	Graph(int, void *, bool);
 	~Graph();
+	void bfs(int);
 };
 
 #endif

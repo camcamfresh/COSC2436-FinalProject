@@ -21,7 +21,7 @@ int main(int argc, char** argv) {
 				getline(file, line);
 				line = "0" + line;
 				int vertices = std::count(line.begin(), line.end(), ',') + 1;
-								
+
 				int matrix[vertices][vertices];
 				
 				for(int i = 0; i < vertices; i++){
@@ -34,14 +34,7 @@ int main(int argc, char** argv) {
 					}
 				}				
 				
-				for(int i = 0; i < vertices; i++){
-					for(int j = 0; j < vertices; j++){
-						std::cout << matrix[i][j] << " ";
-					}
-					std::cout <<std::endl;
-				}
-				
-				Graph graph(vertices, matrix);
+				Graph graph(vertices, matrix, false);
 				
 			}
 			else if(temp == 'X'){
@@ -60,12 +53,7 @@ int main(int argc, char** argv) {
 					}
 				}
 				
-				for(int i = 0; i < vertices; i++){
-					for(int j = 0; j < vertices; j++){
-						std::cout << matrix[i][j] << " ";
-					}
-					std::cout << std::endl;
-				} 
+				Graph graph(vertices, matrix, true);
 
 				
 			}
