@@ -1,8 +1,4 @@
 #include "graph.h"
-#include "main.h" //debug print statements
-#include <vector>
-#include <queue>
-#include <stack>
 
 Graph::Graph(int vertices, void * matrix, bool alpha){
 	//Cast matrix of a 2D int array to the pointer pMatrix.
@@ -51,6 +47,7 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 	std::cout << getEdges() << std::endl;*/
 	
 	std::cout << isConnected(true) << std::endl;
+	printTable();
 	
 	
 	//printTable();
@@ -150,13 +147,45 @@ void Graph::dfs(int vertex){
 }
 
 void Graph::printTable(){
-	for(int i = 0; i < vertices; i++){
-		for(int j = 0; j < vertices; j++){
-			std::cout << matrix[i][j];
-			if(j != vertices - 1) std::cout << ",";
-		}
-		std::cout << std::endl;		
+	std::ofstream file;
+	int fnum = 1;
+	bool fileFound = false;
+	std::string name;
+	while(!fileFound){
+		name = "graph0" + std::to_string(fnum) + ".dat";
+		if(!fileExist(name)) fileFound = true;
+		else fnum++;
 	}
+	file.open(name);
+	
+	if(outputAlpha){
+		file << "X,";
+		for(int i = 0; i < vertices; i++){
+			file << (char)(i + 'a');
+			if(i != vertices - 1) file << ",";
+			else file << std::endl;
+		}
+	}	
+	for(int i = 0; i < vertices; i++){
+		if(outputAlpha) file << (char)(i + 'a') << ",";
+		for(int j = 0; j < vertices; j++){
+			if(outputAlpha) file << matrix[i][j] + 1;
+			else if(matrix[i][j] == -1) file << "x";
+			else file << matrix[i][j];
+			if(j != vertices - 1) file << ",";
+		}
+		file << std::endl;
+	}
+	
+	file.close();
+}
+
+bool Graph::fileExist(std::string name){
+	std::ifstream file;
+	file.open(name.c_str());
+	if(!file) return false;
+	file.close();
+	return true;
 }
 
 void Graph::addVertex(){
@@ -219,35 +248,30 @@ bool Graph::removeEdge(int vertex1, int vertex2){
 
 bool Graph::isConnected(bool listDisconnected){
 	int net[vertices];
-	std::queue<int> queue;
-	for(int i = 0; i < vertices; i++){
-		net[i] = -1;
-		queue.push(i);
-	}
+	for(int i = 0; i < vertices; i++) net[i] = -1;
 	net[0] = 0;
 	
-	while(!queue.empty()){
-		for(int i = 0; i < vertices; i++){
-			if(matrix[queue.front()][i] != -1){
-				if(net[i] == -1) net[i] = net[queue.front()];
-				else if(net[queue.front()] < net[i]) net[i] = net[queue.front()];
-				else{
-					int change = net[queue.front()];
-					for(int j = 0; j < vertices; j++)
-						if(net[j] == change) net[j] = net[i];
-				}
+	for(int i = 0; i < vertices; i++){
+		for(int j = 0; j < vertices; j++){
+			if(matrix[i][j] > -1){
+				if(net[j] == -1) net[j] = net[i];
+				else if(net[j] < net[i]){
+					int change = net[j];
+					net[j] = net[i];
+					for(int k = 0; k < vertices; k++)
+						if(net[k] == change) net[k] = net[i];
+				}					
 			}
 		}
-		queue.pop();
 	}
 	
 	bool result = true;
-
 	for(int i = 0; i < vertices; i++){
+		std::cout << net[i];
 		if(net[i] != 0) result = false;
 		if(!listDisconnected) continue;
 		if(net[i] == 0)
-			outputAlpha ? std::cout << "Vertex " << (char)(i + 'a') << ": is connected." << std::endl:
+			outputAlpha ? std::cout << "Vertex " << (char)(i + 'a') << ": is connected to net " << (char)(net[i] + 'A') << std::endl :
 			std::cout << "Vertex " << i + 1 << ": is connected to net " << (char)(net[i] + 'A') << std::endl;
 		else if(net[i] == -1)
 			outputAlpha ? std::cout << "Vertex " << (char)(i + 'a') << ": is disconnected." << std::endl:

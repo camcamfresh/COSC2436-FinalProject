@@ -1,6 +1,11 @@
 #ifndef FPROJECT_GRAPH_H
 #define FPROJECT_GRAPH_H
 
+#include <fstream>
+#include <iostream>
+#include <queue>
+#include <stack>
+
 class Graph{
 private:
 	int ** matrix;
@@ -8,6 +13,7 @@ private:
 	bool outputAlpha;
 	
 	bool symmetric();
+	bool fileExist(std::string);
 public:
 	Graph(int, void *, bool);
 	~Graph();
