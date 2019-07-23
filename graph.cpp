@@ -15,46 +15,15 @@ Graph::Graph(int vertices, void * matrix, bool alpha){
 			this->matrix[i][j] = (*pMatrix)[i][j];
 		}
 	}
-	
-	//DEBUG: print resulting table
-	/*for(int i = 0; i < vertices; i++){
-		for(int j = 0; j < vertices; j++){
-			std::cout << this->matrix[i][j] << " ";
-		}
-		std::cout << std::endl;
-	}*/
-	
-	//dfs(1);
-	printTable();
-	std::cout << getVertices() << std::endl;
-	std::cout << getEdges() << std::endl;
-	
-	/*addVertex();
-	printTable();
-	std::cout << getVertices() << std::endl;
-	std::cout << getEdges() << std::endl;
-	
-	//addEdge(1,4,0);
-	removeVertex(1);
-	printTable();
-	std::cout << getVertices() << std::endl;
-	std::cout << getEdges() << std::endl;
-	
-	addEdge(6,6,0);
-	addEdge(6,3,0);
-	printTable();
-	std::cout << getVertices() << std::endl;
-	std::cout << getEdges() << std::endl;*/
-	
-	std::cout << isConnected(true) << std::endl;
-	printTable();
-	
-	
-	//printTable();
 }
 
 Graph::~Graph(){
-	
+	for(int i = 0; i < vertices; i++)
+		delete matrix[i];
+	delete matrix;
+	matrix = NULL;
+	vertices = 0;
+	outputAlpha = false;
 }
 
 int Graph::getVertices(){
@@ -146,7 +115,7 @@ void Graph::dfs(int vertex){
 	}
 }
 
-void Graph::printTable(){
+void Graph::exportTable(){
 	std::ofstream file;
 	int fnum = 1;
 	bool fileFound = false;

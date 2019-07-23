@@ -13,17 +13,29 @@ int main(int argc, char** argv) {
 			std::cin.get();
 		}
 		else{
-			char temp;
-			file.get(temp);
-			if(temp == '0'){
-				std::cout << "undirected weighted graph" << std::endl;
-				std::string line;
-				getline(file, line);
+			char type;
+			file.get(type);
+			int vertices = 0;
+			std::string line;
+			getline(file, line);
+			
+			if(type == '0'){
+				std::cout << "Reading undirected weighted graph from " << argv[1] << std::endl;
 				line = "0" + line;
-				int vertices = std::count(line.begin(), line.end(), ',') + 1;
-
-				int matrix[vertices][vertices];
-				
+				vertices = std::count(line.begin(), line.end(), ',') + 1;
+			}
+			else if(type == 'X'){
+				std::cout << "Reading directed unweighted graph from " << argv[1] << std::endl;
+				int vertices = std::count(line.begin(), line.end(), ',');
+			}
+			else{
+				std::cout << "ERROR: Invalid File" << std::endl;
+				return -1;
+			}
+			
+			int matrix[vertices][vertices];
+			
+			if(type == '0'){
 				for(int i = 0; i < vertices; i++){
 					for(int j = vertices - 1; j >= 0; j--){
 						std::string read = line.substr(line.find_last_of(",") + 1);
@@ -32,17 +44,9 @@ int main(int argc, char** argv) {
 						if(j == 0) getline(file, line);
 						else line = line.substr(0, line.find_last_of(","));
 					}
-				}				
-				
-				Graph graph(vertices, matrix, false);
-				
+				}
 			}
-			else if(temp == 'X'){
-				std::cout << "directed unweighted graph" << std::endl;
-				std::string line;
-				getline(file, line);
-				int vertices = std::count(line.begin(), line.end(), ',');
-				int matrix[vertices][vertices];
+			else{
 				for(int i = 0; i < vertices; i++){
 					getline(file, line);
 					line = line.substr(2);
@@ -52,15 +56,11 @@ int main(int argc, char** argv) {
 						line = line.substr(0, line.find_last_of(","));
 					}
 				}
-				
-				Graph graph(vertices, matrix, true);
-
-				
 			}
-			else std::cout << "ERROR: Invalid File" << std::endl;
 			
+			Graph graph(vertices, matrix, type == '0' ? 0 : 1);
 			
-			
+
 			file.close();
 		}
 	}

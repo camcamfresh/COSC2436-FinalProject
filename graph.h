@@ -15,13 +15,15 @@ private:
 	bool symmetric();
 	bool fileExist(std::string);
 public:
-	Graph(int, void *, bool);
+	//input number of vertices, pointer to square 2D int array, & bool to ouput vertices alphabetically (true) instead of numerically (false).
+	Graph(int, void *, bool); 
 	~Graph();
+	
 	int getVertices();
 	int getEdges();
 	void bfs(int);
 	void dfs(int);
-	void printTable(); //debug, maybe turn into output to file method
+	void exportTable();
 	
 	void addVertex();
 	bool addEdge(int, int, int = 0);
