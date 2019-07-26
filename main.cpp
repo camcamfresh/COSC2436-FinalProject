@@ -26,7 +26,7 @@ int main(int argc, char** argv) {
 			}
 			else if(type == 'X'){
 				std::cout << "Reading directed unweighted graph from " << argv[1] << std::endl;
-				int vertices = std::count(line.begin(), line.end(), ',');
+				vertices = std::count(line.begin(), line.end(), ',');
 			}
 			else{
 				std::cout << "ERROR: Invalid File" << std::endl;
@@ -57,11 +57,35 @@ int main(int argc, char** argv) {
 					}
 				}
 			}
-			
+			file.close();
 			Graph graph(vertices, matrix, type == '0' ? 0 : 1);
 			
+			std::cout << "\nOutputting object's representation of graph." << std::endl;
+			graph.printGraph();
+			
+			std::cout << "\nGet Number of Vertices: " << graph.getVertices() << std::endl;
+			std::cout << "Get Number of Edges: " << graph.getEdges() << std::endl;
+			std::cout << "Are Vertices Connected: ";
+			if(graph.isConnected()) std::cout << "yes" << std::endl;
+			else std::cout << "NO" << std::endl;
+			
+			std::cout << "Disconneced Vetices: " << std::endl;
+			graph.listDisconnected();
+			
+			/*int testSize = vertices / 2;
+			int test[testSize];
+			for(int i = 0; i < testSize; i++){
+				test[i] = random_range(1, vertices);
+				std::cout << "\nBreadth First Search from " << test[i] << std::endl;
+				graph.bfs(test[i]);
+			}
+			
+			for(int i = 0; i < testSize; i++){
+				std::cout << "\nDepth First Search from " << test[i] << std::endl;
+				graph.dfs(test[i]);
+			}*/
 
-			file.close();
+			
 		}
 	}
 }

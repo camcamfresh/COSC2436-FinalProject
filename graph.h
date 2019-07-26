@@ -15,23 +15,30 @@ private:
 	bool symmetric();
 	bool fileExist(std::string);
 public:
-	//input number of vertices, pointer to square 2D int array, & bool to ouput vertices alphabetically (true) instead of numerically (false).
+	//input number of vertices, pointer to square 2D int array, & bool to output vertices alphabetically (true) instead of numerically (false).
+	//no checks on the 2d matrix, disconnected edges are must be set to -1, unweighted edges must be set to 0 and weighted edges must be set to their respective integer weight.
 	Graph(int, void *, bool); 
 	~Graph();
 	
-	int getVertices();
-	int getEdges();
+	//Information & Search Methods.
+	void printGraph(); //prints out object's representation of the graph.
+	void exportGraph();
+	
 	void bfs(int);
 	void dfs(int);
-	void exportTable();
 	
+	int getVertices();
+	int getEdges();
+	
+	//Manipulation Methods.
 	void addVertex();
-	bool addEdge(int, int, int = 0);
-	bool removeVertex(int);
-	bool removeEdge(int, int);
+	bool removeVertex(int); //must input vertex as integer starting at one.
 	
-	bool isConnected(bool = false);
-	void listDisconnected();
+	bool addEdge(int, int, int = 0); //vertexOne, vertexTwo, weight
+	bool removeEdge(int, int); //vertexOne, vertexTwo
+	
+	bool isConnected(bool = false); //listDisconnected
+	void listDisconnected(); //listDisconnected wrapper
 };
 
 #endif
