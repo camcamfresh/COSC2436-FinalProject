@@ -30,15 +30,15 @@ public:
 	int getVertices();
 	int getEdges();
 	
+	bool isConnected(bool = false); //contains listDisconnected
+	void listDisconnected(); //listDisconnected wrapper
+	
 	//Manipulation Methods.
 	void addVertex();
 	bool removeVertex(int); //must input vertex as integer starting at one.
 	
 	bool addEdge(int, int, int = 0); //vertexOne, vertexTwo, weight
 	bool removeEdge(int, int); //vertexOne, vertexTwo
-	
-	bool isConnected(bool = false); //listDisconnected
-	void listDisconnected(); //listDisconnected wrapper
 };
 
 #endif

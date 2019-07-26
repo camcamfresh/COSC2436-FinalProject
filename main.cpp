@@ -69,13 +69,21 @@ int main(int argc, char** argv) {
 			if(graph.isConnected()) std::cout << "yes" << std::endl;
 			else std::cout << "NO" << std::endl;
 			
-			std::cout << "Disconneced Vetices: " << std::endl;
+			std::cout << "List (Disconnected) Vertice Nets: " << std::endl;
 			graph.listDisconnected();
+			std::cout << "Note: this does not entail the vertices are fully connected" << std::endl;
 			
-			/*int testSize = vertices / 2;
+			int testSize = vertices / 2;
 			int test[testSize];
 			for(int i = 0; i < testSize; i++){
-				test[i] = random_range(1, vertices);
+				bool unique = false;
+				while(!unique){			
+					test[i] = random_range(1, vertices);
+					unique = true;
+					for(int j = 0; j < i; j++)
+						if(test[i] == test[j]) unique = false;
+				}
+					
 				std::cout << "\nBreadth First Search from " << test[i] << std::endl;
 				graph.bfs(test[i]);
 			}
@@ -83,13 +91,79 @@ int main(int argc, char** argv) {
 			for(int i = 0; i < testSize; i++){
 				std::cout << "\nDepth First Search from " << test[i] << std::endl;
 				graph.dfs(test[i]);
-			}*/
-
+			}
+			
+			std::cout << "\nAdding a vertex" << std::endl;
+			graph.addVertex();
+			vertices++;
+			
+			std::cout << "\nOutputting object's representation of graph." << std::endl;
+			graph.printGraph();
+			
+			std::cout << "\nGet Number of Vertices: " << graph.getVertices() << std::endl;
+			std::cout << "Get Number of Edges: " << graph.getEdges() << std::endl;
+			std::cout << "Are Vertices Connected: ";
+			if(graph.isConnected()) std::cout << "yes" << std::endl;
+			else std::cout << "NO" << std::endl;
+			
+			std::cout << "\nAdding an edge from new vertex to first vertex (weight 0)" << std::endl;
+			std::cout << "There should be a zero on the bottom left of the matrix." << std::endl;
+			std::cout << "If the graph is weighted and undirected, there should also be a zero\nat the top right of the matrix." << std::endl;
+			std::cout << "Attempting: " << graph.addEdge(vertices, 1) << std::endl;
+			
+			std::cout << "Reattempting: " << graph.addEdge(vertices, 1) << std::endl;
+			
+			std::cout << "\nOutputting object's representation of graph." << std::endl;
+			graph.printGraph();
+			
+			std::cout << "\nGet Number of Vertices: " << graph.getVertices() << std::endl;
+			std::cout << "Get Number of Edges: " << graph.getEdges() << std::endl;
+			std::cout << "Are Vertices Connected: ";
+			if(graph.isConnected()) std::cout << "yes" << std::endl;
+			else std::cout << "NO" << std::endl;
+			
+			std::cout << "\nRemoving edge" << std::endl;
+			std::cout << "Attempting: " << graph.removeEdge(vertices, 1) << std::endl;
+			
+			std::cout << "\nOutputting object's representation of graph." << std::endl;
+			graph.printGraph();
+			
+			std::cout << "\nGet Number of Vertices: " << graph.getVertices() << std::endl;
+			std::cout << "Get Number of Edges: " << graph.getEdges() << std::endl;
+			std::cout << "Are Vertices Connected: ";
+			if(graph.isConnected()) std::cout << "yes" << std::endl;
+			else std::cout << "NO" << std::endl;
+			std::cout << "List (Disconnected) Vertice Nets: " << std::endl;
+			graph.listDisconnected();
+			
+			std::cout << "\nRemoving last vertex: " << graph.removeVertex(vertices--) << std::endl;
+			
+			std::cout << "\nOutputting object's representation of graph." << std::endl;
+			graph.printGraph();
+			std::cout << "\nGet Number of Vertices: " << graph.getVertices() << std::endl;
+			std::cout << "Get Number of Edges: " << graph.getEdges() << std::endl;
+			std::cout << "Are Vertices Connected: ";
+			if(graph.isConnected()) std::cout << "yes" << std::endl;
+			else std::cout << "NO" << std::endl;
+			
+			std::cout << "\nRemoving second vertex: " << graph.removeVertex(2) << std::endl;
+			vertices--;
+			
+			std::cout << "\nOutputting object's representation of graph." << std::endl;
+			graph.printGraph();
+			std::cout << "\nGet Number of Vertices: " << graph.getVertices() << std::endl;
+			std::cout << "Get Number of Edges: " << graph.getEdges() << std::endl;
+			std::cout << "Are Vertices Connected: ";
+			if(graph.isConnected()) std::cout << "yes" << std::endl;
+			else std::cout << "NO" << std::endl;
+			
+			std::cout << "End of Test. Outputting current graph to file." << std::endl;
+			graph.exportGraph();
 			
 		}
 	}
 }
 
 int random_range(int min, int max) {
-    return (rand() % (max - min + 1)) +min;
+    return (rand() % (max - min + 1)) + min;
 }

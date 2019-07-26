@@ -196,6 +196,7 @@ bool Graph::addEdge(int vertex1, int vertex2, int weight){
 	//check to see if vertex exists, ensure weight is either -1 or 0 when it is directed unweighted graph (symmetric and alphabetical output).
 	//TODO: CHECK IF SYMMETRY IS A GOOD SIGN OF WEIGHTED UNDIRECTED GRAPHS.
 	if(vertex1 < 1 || vertex2 < 1 ||
+	  (matrix[vertex1 - 1][vertex2 - 1] >= 0) ||
 	  (matrix[0][0] != 0 && weight > 0 && !symmetric()) ||
 	   vertex1 > vertices || vertex2 > vertices ||
 	   weight < 0) return false;
@@ -233,6 +234,7 @@ bool Graph::removeVertex(int vertex){
 }
 
 bool Graph::removeEdge(int vertex1, int vertex2){
+	vertex1--; vertex2--;
 	//check if edge exists.
 	if(matrix[vertex1][vertex2] < 0) return false;
 	else{
@@ -288,8 +290,6 @@ bool Graph::isConnected(bool listDisconnected){
 void Graph::listDisconnected(){
 	isConnected(true);
 }
-
-
 
 
 
