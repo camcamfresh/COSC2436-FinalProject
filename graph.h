@@ -1,3 +1,11 @@
+/* Assignment: Final Project
+ * Date: 7/26/2019
+ * Description: This program implements a graph using a 2D int array. The program handles
+ * 		weighted undirected and unweighted directed graphs the same. Disconneced edges must
+ * 		be set to -1, unweighted edges to 0 and weighted edges to their respective integer
+ * 		value. The manipulation methods allow graphs to be changed (e.g., weighted undirected
+ * 		graph to weighted directed graph, etc.). Read graph.h for more details.
+*/
 #ifndef FPROJECT_GRAPH_H
 #define FPROJECT_GRAPH_H
 
@@ -22,9 +30,9 @@ public:
 	
 	//Information & Search Methods.
 	void printGraph(); //prints out object's representation of the graph.
-	void exportGraph();
+	void exportGraph(); //exports graph to file
 	
-	void bfs(int);
+	void bfs(int);//Note: Vertices start at 1, not zero or 'a'.
 	void dfs(int);
 	
 	int getVertices();
@@ -35,7 +43,7 @@ public:
 	
 	//Manipulation Methods.
 	void addVertex();
-	bool removeVertex(int); //must input vertex as integer starting at one.
+	bool removeVertex(int); //Note: Vertices start at 1, not zero or 'a'.
 	
 	bool addEdge(int, int, int = 0); //vertexOne, vertexTwo, weight
 	bool removeEdge(int, int); //vertexOne, vertexTwo
