@@ -1,0 +1,2 @@
+# COSC2436-FinalProject
+This program implements a basic graph using a 2D int array in C++. The program handles weighted undirected and unweighted directed graphs the same. Disconneced edges must be set to -1, unweighted edges to 0 and weighted edges to their respective integer value. The manipulation methods allow graphs to be changed (e.g., weighted undirected graph to weighted directed graph, etc.). Read graph.h for more specific details.
